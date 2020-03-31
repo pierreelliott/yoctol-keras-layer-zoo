@@ -1,7 +1,8 @@
-'''Pick specific slice of tensor from input'''
+"""Pick specific slice of tensor from input"""
 import keras.backend as K
 from keras.engine.topology import Layer
 import tensorflow as tf
+
 
 class Pick(Layer):
     def __init__(

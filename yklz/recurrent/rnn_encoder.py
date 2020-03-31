@@ -1,10 +1,11 @@
-'''The RNNEncoder Layer wrappers recurrent Layers used in Keras to encoded
+"""The RNNEncoder Layer wrappers recurrent Layers used in Keras to encoded
 input sequence into an encoded vector with padding zero vectors. You have
 to set the return_sequences parameter in your recurrent unit to true to
-perform mask function.'''
+perform mask function."""
 import keras.backend as K
 from keras.layers.wrappers import Wrapper
 import tensorflow as tf
+
 
 class RNNEncoder(Wrapper):
     def __init__(self, layer, **kwargs):

@@ -1,4 +1,4 @@
-'''Pick layer test case'''
+"""Pick layer test case"""
 import os
 from unittest import TestCase
 
@@ -9,7 +9,10 @@ from keras.layers.core import Masking
 from keras.layers import LSTM
 from keras.models import load_model
 
+import tensorflow.compat.v1.keras.backend as C
+
 from yklz import RNNEncoder, Pick
+
 
 class TestPickClass(TestCase):
 
@@ -30,9 +33,7 @@ class TestPickClass(TestCase):
             self.data_size,
             self.encoding_size
         )
-        self.custom_objects = {}
-        self.custom_objects['RNNEncoder'] = RNNEncoder
-        self.custom_objects['Pick'] = Pick
+        self.custom_objects = {'RNNEncoder': RNNEncoder, 'Pick': Pick}
         self.model = self.create_model()
 
     def create_model(self):
@@ -66,7 +67,7 @@ class TestPickClass(TestCase):
         mask_cache_key = str(id(self.model.input)) + '_' + str(id(None))
         mask_tensor = self.model._output_mask_cache[mask_cache_key]
         mask = mask_tensor.eval(
-            session=K.get_session(),
+            session=C.get_session(),
             feed_dict={self.model.input: self.data}
         )
         self.assertTrue(

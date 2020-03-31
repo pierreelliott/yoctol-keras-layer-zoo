@@ -1,6 +1,7 @@
-'''Flatten layer supporting mask'''
+"""Flatten layer supporting mask"""
 import keras.backend as K
 from keras.layers import Layer
+
 
 class MaskFlatten(Layer):
 

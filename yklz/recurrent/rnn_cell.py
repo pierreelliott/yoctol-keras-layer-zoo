@@ -1,15 +1,11 @@
+import keras.backend as K
 import numpy as np
-
-from keras.layers import activations
-from keras.layers import initializers
-from keras.layers import regularizers
-from keras.layers import constraints
 from keras.engine import InputSpec
 from keras.layers import Layer
-import keras.backend as K
 
 import yklz.backend as YK
 from .lstm_peephole import LSTMPeephole
+
 
 class RNNCell(Layer):
     def __init__(self,
@@ -285,6 +281,7 @@ class RNNCell(Layer):
 
             def dropped_inputs():
                 return K.dropout(ones, self.dense_dropout)
+
             out_dp_mask = [K.in_train_phase(dropped_inputs,
                                             ones,
                                             training=training)]
@@ -329,13 +326,13 @@ class RNNCell(Layer):
         constants = self.get_constants(inputs, training=None)
         preprocessed_input = self.preprocess_input(inputs, training=None)
         last_output, outputs, states = YK.rnn(self.step,
-                                             preprocessed_input,
-                                             initial_state,
-                                             go_backwards=self.go_backwards,
-                                             mask=mask,
-                                             constants=constants,
-                                             unroll=self.unroll,
-                                             input_length=input_shape[1])
+                                              preprocessed_input,
+                                              initial_state,
+                                              go_backwards=self.go_backwards,
+                                              mask=mask,
+                                              constants=constants,
+                                              unroll=self.unroll,
+                                              input_length=input_shape[1])
         if self.stateful:
             updates = []
             for i in range(len(states)):
@@ -385,7 +382,7 @@ class RNNCell(Layer):
                     'config': self.dense_layer.get_config()
                 },
             'dense_dropout': self.dense_dropout,
-            'go_backwards':self.go_backwards,
+            'go_backwards': self.go_backwards,
         }
         base_config = super(RNNCell, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
@@ -393,8 +390,7 @@ class RNNCell(Layer):
     @classmethod
     def from_config(cls, config, custom_objects=None):
         if custom_objects is None:
-            custom_objects = {}
-            custom_objects['LSTMPeephole'] = LSTMPeephole
+            custom_objects = {'LSTMPeephole': LSTMPeephole}
 
         from keras.layers import deserialize as deserialize_layer
         recurrent_layer = deserialize_layer(

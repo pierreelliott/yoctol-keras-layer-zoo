@@ -4,6 +4,7 @@ import keras.backend as K
 from keras.layers.wrappers import Bidirectional
 import tensorflow as tf
 
+
 class BidirectionalRNNEncoder(Bidirectional):
 
     def __init__(
@@ -59,7 +60,7 @@ class BidirectionalRNNEncoder(Bidirectional):
             ]
         )
         output = K.reshape(
-            tf.slice(output, [0, inputs_shape[1] - 1,0], [-1, 1, -1]),
+            tf.slice(output, [0, inputs_shape[1] - 1, 0], [-1, 1, -1]),
             shape=(inputs_shape[0], 1, units)
         )
         output = K.concatenate([output, zeros], axis=1)

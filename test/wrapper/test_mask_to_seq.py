@@ -1,13 +1,16 @@
-'''Testcases for ConvEncoder Layer'''
+"""Testcases for ConvEncoder Layer"""
 from unittest import TestCase
 
 import numpy as np
 import keras.backend as K
 from keras.models import Input, Model
 
+import tensorflow.compat.v1.keras.backend as C
+
 from yklz import MaskConv
 from yklz import MaskToSeq
 from test import TestBase2DClass
+
 
 class TestMaskToSeq2DClass(TestBase2DClass, TestCase):
 
@@ -79,7 +82,7 @@ class TestMaskToSeq2DClass(TestBase2DClass, TestCase):
         mask_cache_key = str(id(self.model.input)) + '_' + str(id(None))
         mask_tensor = self.model._output_mask_cache[mask_cache_key]
         mask = mask_tensor.eval(
-            session=K.get_session(),
+            session=C.get_session(),
             feed_dict={self.model.input: self.data}
         )
         self.assertTrue(
@@ -102,7 +105,7 @@ class TestMaskToSeq2DClass(TestBase2DClass, TestCase):
         mask_cache_key = str(id(self.model.input)) + '_' + str(id(None))
         mask_tensor = self.model._output_mask_cache[mask_cache_key]
         mask = mask_tensor.eval(
-            session=K.get_session(),
+            session=C.get_session(),
             feed_dict={self.model.input: self.seq_data}
         )
         self.assertTrue(

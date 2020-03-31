@@ -1,12 +1,13 @@
-'''Mask ConvNet'''
+"""Mask ConvNet"""
 import keras.backend as K
 from keras.layers.wrappers import Wrapper
+
 
 class MaskConvNet(Wrapper):
 
     def __init__(self,
                  layer,
-                **kwargs):
+                 **kwargs):
         super(MaskConvNet, self).__init__(
             layer,
             **kwargs

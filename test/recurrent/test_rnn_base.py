@@ -1,13 +1,15 @@
-'''RNN base test case'''
+"""RNN base test case"""
 import os
-from unittest import TestCase
 from unittest.mock import patch
 
-import numpy as np
 import keras.backend as K
-from keras.models import Model, Input
+import numpy as np
 from keras.layers.core import Masking
+from keras.models import Model, Input
 from keras.models import load_model
+
+import tensorflow.compat.v1.keras.backend as C
+
 
 class TestRNNBaseClass(object):
 
@@ -75,7 +77,7 @@ class TestRNNBaseClass(object):
         mask_cache_key = str(id(self.model.input)) + '_' + str(id(None))
         mask_tensor = self.model._output_mask_cache[mask_cache_key]
         mask = mask_tensor.eval(
-            session=K.get_session(),
+            session=C.get_session(),
             feed_dict={self.model.input: self.data}
         )
         self.assertFalse(np.any(mask[:, self.mask_start_point:]))

@@ -1,4 +1,4 @@
-'''test cases for the masking flatten layer'''
+"""test cases for the masking flatten layer"""
 from unittest import TestCase
 
 import numpy as np
@@ -8,9 +8,12 @@ from keras.utils.conv_utils import conv_output_length
 from keras.layers.pooling import MaxPool2D
 from keras.layers import Conv2D
 
+import tensorflow.compat.v1.keras.backend as C
+
 from yklz import MaskConvNet, MaskPooling
 from yklz import MaskConv, MaskFlatten
 from test import TestBase2DClass
+
 
 class TestMaskFlattenClass(TestBase2DClass, TestCase):
 
@@ -87,7 +90,7 @@ class TestMaskFlattenClass(TestBase2DClass, TestCase):
         mask_cache_key = str(id(self.model.input)) + '_' + str(id(None))
         mask_tensor = self.model._output_mask_cache[mask_cache_key]
         mask = mask_tensor.eval(
-            session=K.get_session(),
+            session=C.get_session(),
             feed_dict={self.model.input: self.data}
         )
         self.assertFalse(np.any(mask))

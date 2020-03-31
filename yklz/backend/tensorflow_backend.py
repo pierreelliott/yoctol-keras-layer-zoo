@@ -5,13 +5,15 @@ from keras.backend import expand_dims
 from keras.backend import zeros_like
 from keras.backend import reverse
 
+
+# TODO Refactor duplicated code
 def rnn(step_function, inputs, initial_states,
         go_backwards=False, mask=None, constants=None,
         unroll=False, input_length=None):
     """Iterates over the time dimension of a tensor.
 
     # Arguments
-        step_function: RNN step function.
+        :param step_function: RNN step function.
             Parameters:
                 input: tensor with shape `(samples, ...)` (no time dimension),
                     representing input for the batch of samples at a certain
@@ -23,19 +25,19 @@ def rnn(step_function, inputs, initial_states,
                 new_states: list of tensors, same length and shapes
                     as 'states'. The first state in the list must be the
                     output tensor at the previous timestep.
-        inputs: tensor of temporal data of shape `(samples, time, ...)`
+        :param inputs: tensor of temporal data of shape `(samples, time, ...)`
             (at least 3D).
-        initial_states: tensor with shape (samples, output_dim)
+        :param initial_states: tensor with shape (samples, output_dim)
             (no time dimension),
             containing the initial values for the states used in
             the step function.
-        go_backwards: boolean. If True, do the iteration over the time
+        :param go_backwards: boolean. If True, do the iteration over the time
             dimension in reverse order and return the reversed sequence.
-        mask: binary tensor with shape `(samples, time, 1)`,
+        :param mask: binary tensor with shape `(samples, time, 1)`,
             with a zero for every element that is masked.
-        constants: a list of constant values passed at each step.
-        unroll: whether to unroll the RNN or to use a symbolic loop (`while_loop` or `scan` depending on backend).
-        input_length: not relevant in the TensorFlow implementation.
+        :param constants: a list of constant values passed at each step.
+        :param unroll: whether to unroll the RNN or to use a symbolic loop (`while_loop` or `scan` depending on backend).
+        :param input_length: not relevant in the TensorFlow implementation.
             Must be specified if using unrolling with Theano.
 
     # Returns
@@ -187,7 +189,7 @@ def rnn(step_function, inputs, initial_states,
                                                    tuple(constants))
                 for state, new_state in zip(states, new_states):
                     new_state.set_shape(state.get_shape())
-                #tiled_mask_t = tf.tile(mask_t,
+                # tiled_mask_t = tf.tile(mask_t,
                 #                       tf.stack([1, tf.shape(output)[1]]))
                 output = tf.where(mask_t, output, states[0])
                 new_states = [tf.where(mask_t, new_states[i], states[i]) for i in range(len(states))]
@@ -233,12 +235,12 @@ def rnn(step_function, inputs, initial_states,
 
 
 def rnn_decoder(step_function, inputs, initial_states,
-        go_backwards=False, mask=None, constants=None,
-        unroll=False, input_length=None, time_steps=None):
+                go_backwards=False, mask=None, constants=None,
+                unroll=False, input_length=None, time_steps=None):
     """Iterates over the time dimension of a tensor.
 
     # Arguments
-        step_function: RNN step function.
+        :param step_function: RNN step function.
             Parameters:
                 input: tensor with shape `(samples, ...)` (no time dimension),
                     representing input for the batch of samples at a certain
@@ -250,21 +252,21 @@ def rnn_decoder(step_function, inputs, initial_states,
                 new_states: list of tensors, same length and shapes
                     as 'states'. The first state in the list must be the
                     output tensor at the previous timestep.
-        inputs: tensor of temporal data of shape `(samples, time, ...)`
+        :param inputs: tensor of temporal data of shape `(samples, time, ...)`
             (at least 3D).
-        initial_states: tensor with shape (samples, output_dim)
+        :param initial_states: tensor with shape (samples, output_dim)
             (no time dimension),
             containing the initial values for the states used in
             the step function.
-        go_backwards: boolean. If True, do the iteration over the time
+        :param go_backwards: boolean. If True, do the iteration over the time
             dimension in reverse order and return the reversed sequence.
-        mask: binary tensor with shape `(samples, time, 1)`,
+        :param mask: binary tensor with shape `(samples, time, 1)`,
             with a zero for every element that is masked.
-        constants: a list of constant values passed at each step.
-        unroll: whether to unroll the RNN or to use a symbolic loop (`while_loop` or `scan` depending on backend).
-        input_length: not relevant in the TensorFlow implementation.
+        :param constants: a list of constant values passed at each step.
+        :param unroll: whether to unroll the RNN or to use a symbolic loop (`while_loop` or `scan` depending on backend).
+        :param input_length: not relevant in the TensorFlow implementation.
             Must be specified if using unrolling with Theano.
-        time_steps: a int to specify the decoding length. we use the input
+        :param time_steps: a int to specify the decoding length. we use the input
                    length to decode if time_steps is None
 
     # Returns
@@ -451,7 +453,7 @@ def rnn_decoder(step_function, inputs, initial_states,
                                                    tuple(constants))
                 for state, new_state in zip(states, new_states):
                     new_state.set_shape(state.get_shape())
-                #tiled_mask_t = tf.tile(mask_t,
+                # tiled_mask_t = tf.tile(mask_t,
                 #                       tf.stack([1, tf.shape(output)[1]]))
                 output = tf.where(mask_t, output, states[0])
                 new_states = [tf.where(mask_t, new_states[i], states[i]) for i in range(len(states))]

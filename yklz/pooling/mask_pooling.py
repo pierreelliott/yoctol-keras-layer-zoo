@@ -1,7 +1,8 @@
-'''Mask pooling'''
+"""Mask pooling"""
 import keras.backend as K
 from keras.layers.wrappers import Wrapper
 import tensorflow as tf
+
 
 class MaskPooling(Wrapper):
     def __init__(self,

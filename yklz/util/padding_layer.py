@@ -2,6 +2,7 @@ from keras import backend as K
 from keras.engine.topology import Layer
 import tensorflow as tf
 
+
 class PaddingZero(Layer):
 
     def __init__(self, max_length, **kwargs):

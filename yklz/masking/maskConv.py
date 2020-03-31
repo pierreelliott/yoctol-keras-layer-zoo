@@ -1,7 +1,8 @@
-'''Customed Mask2D Layer'''
+"""Customed Mask2D Layer"""
 from keras.layers import Masking
 import keras.backend as K
 import tensorflow as tf
+
 
 class MaskConv(Masking):
 
@@ -31,4 +32,3 @@ class MaskConv(Masking):
             channel_axis
         )
         return inputs * K.cast(masked_tensor, K.floatx())
-

@@ -1,6 +1,7 @@
 from keras.layers.recurrent import LSTM
 import keras.backend as K
 
+
 class LSTMPeephole(LSTM):
     def __init__(self, units,
                  activation='tanh',

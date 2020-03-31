@@ -1,6 +1,7 @@
-'''Mask 2D tensor to time stamp sequence'''
+"""Mask 2D tensor to time stamp sequence"""
 import keras.backend as K
 from keras.layers.wrappers import Wrapper
+
 
 class MaskToSeq(Wrapper):
 

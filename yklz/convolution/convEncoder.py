@@ -1,12 +1,13 @@
-'''ConvEncoder is a layer which transforms 2D or 3D tensor into 3D
+"""ConvEncoder is a layer which transforms 2D or 3D tensor into 3D
 timestamp sequence. The sequence contains encoded vector at the
 first stamp and zero vectors at remaining stamps. ConvEncoder provides
 mask function in Keras framework and could be combined with our customed
 LSTMDecoder.
-'''
+"""
 import tensorflow as tf
 import keras.backend as K
 from keras.layers import Layer
+
 
 class ConvEncoder(Layer):
 

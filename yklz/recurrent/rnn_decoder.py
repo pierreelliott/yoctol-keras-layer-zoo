@@ -1,19 +1,20 @@
-'''The RNNDecoder Layer wrappers recurrent Layers used in Keras to decoded
+"""The RNNDecoder Layer wrappers recurrent Layers used in Keras to decoded
 output sequence from our RNNEncoder, BidirectionalRNNEncoder and ConvEncoder
-wrappers.'''
+wrappers."""
 import keras.backend as K
 from keras.layers.wrappers import Wrapper
 import tensorflow as tf
 
 import yklz.backend as YK
 
+
 class RNNDecoder(Wrapper):
     def __init__(
-            self,
-            layer,
-            time_steps=None,
-            **kwargs
-        ):
+        self,
+        layer,
+        time_steps=None,
+        **kwargs
+    ):
         super(RNNDecoder, self).__init__(
             layer,
             **kwargs
@@ -42,7 +43,7 @@ class RNNDecoder(Wrapper):
             )
 
     def compute_mask(self, inputs, mask):
-        output_mask =  self.layer.compute_mask(
+        output_mask = self.layer.compute_mask(
             inputs=inputs,
             mask=mask,
         )
@@ -96,14 +97,14 @@ class RNNDecoder(Wrapper):
         preprocessed_input = self.layer.preprocess_input(inputs, training=None)
         step_function = self.step_with_training(training)
         last_output, outputs, states = YK.rnn_decoder(step_function,
-                                             preprocessed_input,
-                                             initial_state,
-                                             go_backwards=self.layer.go_backwards,
-                                             mask=mask,
-                                             constants=constants,
-                                             unroll=self.layer.unroll,
-                                             input_length=input_shape[1],
-                                             time_steps=self.time_steps)
+                                                      preprocessed_input,
+                                                      initial_state,
+                                                      go_backwards=self.layer.go_backwards,
+                                                      mask=mask,
+                                                      constants=constants,
+                                                      unroll=self.layer.unroll,
+                                                      input_length=input_shape[1],
+                                                      time_steps=self.time_steps)
         if self.layer.stateful:
             updates = []
             for i in range(len(states)):
@@ -130,7 +131,9 @@ class RNNDecoder(Wrapper):
             inputs_sum = tf.reduce_sum(inputs)
 
             def inputs_f(): return inputs
+
             def output_f(): return y_tm1
+
             current_inputs = tf.case(
                 [(tf.equal(inputs_sum, 0.0), output_f)],
                 default=inputs_f

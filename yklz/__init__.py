@@ -1,4 +1,4 @@
-'''Customed recurrent wrappers'''
+"""Customed recurrent wrappers"""
 from .recurrent.bidirectional_rnn_encoder import BidirectionalRNNEncoder
 from .recurrent.rnn_encoder import RNNEncoder
 from .recurrent.rnn_decoder import RNNDecoder
